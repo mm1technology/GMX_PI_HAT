@@ -5,7 +5,7 @@ As you can see from the picture with this HAT your Raspberry PI can use two GMX 
 The HAT simply bring the PI GPIOS over to the GMX connectors and adds a dual IC2 UART interface based on the NXPSC16752 chip.<br/>
 The HAT works with the 40 Pins PI extension board - so only on the ...
 
-## How to Configure Raspian
+## How to Configure your PI with Raspian
 You need to add support for the NXPSX16752 chipset before being able to use the board. This hopefully its quite easy.<br/>
 We have been testing the latest Raspian release Stretch ( as of August 2017).
 <br/>
@@ -55,7 +55,12 @@ sc16is7xx
 
 You should have something like this:
 ```bash
+# /etc/modules: kernel modules to load at boot time.
+#
+# This file contains the names of kernel modules that should be loaded
+# at boot time, one per line. Lines beginning with "#" are ignored.
 
+i2c-dev
 sc16is7xx
 ```
 
@@ -112,10 +117,10 @@ and copy this content:
 
 ```
 <br/>
-In this DTS file the i2c address is specified( 0x4D ) and the interrupt pin which is GPIO 17.<br/>
+The GMX PI HAT has i2c address at <b>0x4D</b> and interrupt pin GPIO <b>17</b>.<br/>
 <br/>
 
-Now we need to create the DTBO overlay file ( and you need kernel > 4.4 - use 'uname -r').<br/>
+Now we need to create the DTBO overlay file ( and you need kernel > 4.4 - use 'uname -r' to check).<br/>
 
 ```bash
 dtc -@ -I dts –O dtb –o sc16is752-i2c.dtbo sc16is752-i2c.dts
@@ -128,8 +133,8 @@ sudo cp sc16is752-i2c.dtbo /boot/overlays/
 ```
 
 and finally activate in the <b>/boot/config.txt</b>.<br/>
-Add the line dtoverlay=sc16is752-i2c<br/>
-Add the beginning of the config.txt file the 'debug on line'</br>
+Add the line: dtoverlay=sc16is752-i2c ( usually at the bottom of the file)<br/>
+Add the beginning of the config.txt file the 'debug on': dtdebug=on ( once everything works you can remove this)</br>
 
 <br>
 Reboot your PI.
