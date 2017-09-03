@@ -3,8 +3,9 @@ import time
 import serial
 import re
 
+lora_rx = False
 
-print "Booting GMX-lR1..."
+print "Booting GMX-LR1..."
 
 #Init GPIO's
 GPIO.setmode(GPIO.BCM)
@@ -13,6 +14,9 @@ GPIO.setwarnings(False)
 # Reset PIN for GMX Slot #1
 #  - for Slor #2 pin is 6
 GPIO.setup(5, GPIO.OUT)
+
+# RX Interrupt PIN
+GPIO.setup(20, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 # Cycle the Reset
 GPIO.output(5,0)
@@ -26,6 +30,8 @@ time.sleep(2)
 GMX_OK = 0
 GMX_ERROR = -1
 GMX_UKNOWN_ERROR = -2
+
+print "Ready."
 
 # Use /dev/ttySC0 o /dev/ttySC1
 port = serial.Serial("/dev/ttySC0",  baudrate=9600)
@@ -59,6 +65,12 @@ def _parseResponse():
 
     return GMX_UKNOWN_ERROR,response
 
+def _rx_callback(channel):
+    global  lora_rx
+    lora_rx = True;
+
+# add RX interrupt handling
+GPIO.add_event_detect(20, GPIO.FALLING, callback=_rx_callback)
 
 # Query the Module
 response = ""
@@ -126,3 +138,10 @@ while True:
         _parseResponse()
 
         last_lora_tx_time = time.time()
+
+    if (lora_rx):
+        print "LoRa RX!"
+        _sendCmd("AT+RECVB=?\r");
+        status,response = _parseResponse();
+        print "Data=>"+response
+        lora_rx = False
