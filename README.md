@@ -5,9 +5,7 @@ As you can see from the picture with this HAT your Raspberry PI can use two GMX 
 The HAT simply bring the PI GPIOS over to the GMX connectors and adds a dual IC2 UART interface based on the NXPSC16752 chip.<br/>
 The HAT works with the 40 Pins PI extension board - so only on the ...
 
-<br/>
 ## How to Configure Raspian
-
 You need to add support for the NXPSX16752 chipset before being able to use the board. This hopefully its quite easy.<br/>
 We have been testing the latest Raspian release Stretch ( as of August 2017).
 <br/>
