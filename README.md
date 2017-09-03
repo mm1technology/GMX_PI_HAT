@@ -1,9 +1,10 @@
 # GMX_PI_HAT
 The GMX PI HAT brings the GMX module interface to the Raspberry PI world, opening this platform to the GMX IoT modules world.
-As you can see from the picture with this HAT your Raspberry PI can use two GMX modules.<br/>
+As you can see from the picture with this HAT your Raspberry PI can use two GMX modules.<br/><br/>
 <img src="/docs/gmx_pi_hat.jpg"/>
 The HAT simply bring the PI GPIOS over to the GMX connectors and adds a dual IC2 UART interface based on the NXPSC16752 chip.<br/>
-The HAT works with the 40 Pins PI extension board - so only on the ...
+The HAT works with the 40 Pins PI extension board - so (very) old versions of the PI won't be compatible<br/>
+Full schematics are coming as well...<br/>
 
 ## How to Configure your PI with Raspian
 You need to add support for the NXPSX16752 chipset before being able to use the board. This hopefully its quite easy.<br/>
@@ -166,9 +167,13 @@ The HAT is configured and working!
 # Some example Code
 
 In this repo we will add differnt examples to use our GMX modules.<br>
-The first 'basic' example is to run the LoRaWAN GMX-LR1 module, you find here a first version of the python code to make a LoRaWAN connection.<br/>
+The first 'basic' example is for the LoRaWAN GMX-LR1 module <b>gmx_lr1.py</b>, this is a first version of the python code to make a LoRaWAN connection.<br/>
 This is a very first example ( so quite rough) but working!<br/>
 Stay tuned for updates and feel free to change it as you wish.
+
+# Contact
+
+If you want additional info please contat us at [info@gimasi.ch](mailto:info@gimasi.ch)
 
 
 
