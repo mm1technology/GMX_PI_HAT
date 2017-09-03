@@ -7,6 +7,7 @@ The HAT works with the 40 Pins PI extension board - so only on the ...
 
 <br/>
 ## How to Configure Raspian
+
 You need to add support for the NXPSX16752 chipset before being able to use the board. This hopefully its quite easy.<br/>
 We have been testing the latest Raspian release Stretch ( as of August 2017).
 <br/>
