@@ -169,8 +169,9 @@ The HAT is configured and working!
 
 In this repo we will add differnt examples to use our GMX modules.<br>
 The first 'basic' example is for the LoRaWAN GMX-LR1 module <b>gmx_lr1.py</b>, this is a first version of the python code to make a LoRaWAN connection.<br/>
-This is a very first example ( so quite rough) but working!<br/>
-Stay tuned for updates and feel free to change it as you wish.
+There is also the gmx_nbiot.py version with configuration for Deutsche Telekom network.<br/>
+These examples are still quite rough but they work!<br/>
+Stay tuned for updates and feel free to change it as you wish, and if you want to contribute you are very welcome!
 
 # Contact
 
