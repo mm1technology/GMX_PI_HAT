@@ -2,16 +2,16 @@
 The GMX PI HAT brings the GMX module interface to the Raspberry PI world, opening this platform to the GMX IoT modules world.
 As you can see from the picture with this HAT your Raspberry PI can use two GMX modules.<br/><br/>
 <img src="/docs/gmx_pi_hat.jpg"/>
-<br/>
+<br/><br/>
 The HAT simply bring the PI GPIOS over to the GMX connectors and adds a dual IC2 UART interface based on the NXPSC16752 chip.<br/>
 The HAT works with the 40 Pins PI extension board - so (very) old versions of the PI won't be compatible.<br/>
 Full schematics are coming as well...<br/>
 
 ## How to Configure your PI with Raspian
-You need to add support for the NXPSX16752 chipset before being able to use the board. This hopefully its quite easy.<br/>
+You need to add support for the NXPSX16752 chipset before being able to use the board. This, hopefully, should be quite easy.<br/>
 We have been testing the latest Raspian release Stretch ( as of August 2017).
 <br/>
-We are using the I2C version of the chip so first of all you need to enable I2C on the PI ( if you haven't yet done it)
+As we are using the I2C version of the chip so first of all you need to enable I2C on the PI ( if you haven't yet done it)
 
 ```bash
 sudo raspi-config
