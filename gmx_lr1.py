@@ -141,6 +141,7 @@ while True:
 
     if (lora_rx):
         print "LoRa RX!"
+        time.sleep(0.2)  #small delay due to interrupt being faster than real RX
         _sendCmd("AT+RECVB=?\r");
         status,response = _parseResponse();
         print "Data=>"+response
