@@ -129,6 +129,12 @@ Now we need to create the DTBO overlay file ( and you need kernel > 4.4 - use 'u
 dtc -@ -I dts –O dtb –o sc16is752-i2c.dtbo sc16is752-i2c.dts
 ```
 
+If there is a warning, like this...<br/>
+```bash
+sc16is752-i2c.dtbo: Warning (unit_address_vs_reg): Node /fragment@0 has a unit name, but no reg property 
+```
+Its fine..<br/>
+
 and copy it to the overlay folder
 
 ```bash
