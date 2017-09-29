@@ -16,7 +16,7 @@ As we are using the I2C version of the chip so first of all you need to enable I
 ```bash
 sudo raspi-config
 ```
-* Choose advanced options.
+* Choose Interfacing options.
 * Choose I2C Enable/Disable automatic loading.
 * Follow the prompts to set this to load this automatically.
 * Reboot the Pi.
