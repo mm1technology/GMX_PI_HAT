@@ -161,8 +161,6 @@ while join_status == 0:
     print "INDEX:"+str(index)
     if (index!=-1):
         data = response[index:]  
-        print "DEBUG2:"+data
-        print "STATUS"+data[4:5]
         join_status = int(data[4:5])
         print "JOIN STATUS:"+str(join_status)
 
