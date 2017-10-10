@@ -162,7 +162,7 @@ while join_status == 0:
     if (index!=-1):
         data = response[index:]  
         print "DEBUG2:"+data
-        print "STATUS"+data[3,1]
+        print "STATUS"+data[3:1]
 
     print "DEBUG:"+response
     join_status = int(response)
