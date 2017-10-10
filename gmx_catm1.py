@@ -132,7 +132,7 @@ _sendCmd("AT+QICSGP=1,1,\"gprs.swisscom.ch\",\"\",\"\",1\r");
 status,response = _parseResponse();
 print "DEBUG:"+response
 
- _sendCmd("AT+QIACT=1\r");
+_sendCmd("AT+QIACT=1\r");
 status,response = _parseResponse();
 print "DEBUG:"+response
 
