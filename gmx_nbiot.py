@@ -9,9 +9,9 @@ print "Booting GMX-NBIOT..."
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 
-# Reset PIN for GMX Slot #1
-#  - for Slor #2 pin is 6
-GPIO.setup(6, GPIO.OUT)   # SLOT 2
+# Reset PIN for GMX Slot #0
+#  - for Slor #1 pin is 6
+GPIO.setup(6, GPIO.OUT)   # SLOT 1
 
 # Cycle the Reset
 GPIO.output(6,0)
