@@ -162,16 +162,13 @@ while join_status == 0:
     if (index!=-1):
         data = response[index:]  
         print "DEBUG2:"+data
-        print "STATUS"+data[3:4]
-
-    print "DEBUG:"+response
-    join_status = int(response)
-
-
+        print "STATUS"+data[4:5]
+        join_status = int(data[4:5])
+        print "JOIN STATUS:"+str(join_status)
 
 # Joined - we start application
 
-print "Connected!!!"
+print "Attached!!!"
 
 last_tx_time = time.time()
 time_interval_tx = 20
