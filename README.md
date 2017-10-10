@@ -1,9 +1,9 @@
 # GMX_PI_HAT
 The GMX PI HAT brings the GMX module interface to the Raspberry PI world, opening this platform to the GMX IoT modules world.
 As you can see from the picture with this HAT your Raspberry PI can use two GMX modules.<br/><br/>
-<img src="/docs/pihat_3.jpg"/>
+<img src="/docs/pihat_3.png"/>
 <br/>
-<img src="/docs/pihat_1.jpg"/>
+<img src="/docs/pihat_1.png"/>
 <br/>
 <br/>
 The HAT simply bring the PI GPIOS over to the GMX connectors and adds a dual IC2 UART interface based on the NXPSC16752 chip.<br/>
