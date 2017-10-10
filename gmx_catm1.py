@@ -158,7 +158,7 @@ while join_status == 0:
 
     # check response
     index = response.find(":")
-    if (index!=-1)
+    if (index!=-1):
         data = response[index:]   
         print "DEBUG2:"+data
     
