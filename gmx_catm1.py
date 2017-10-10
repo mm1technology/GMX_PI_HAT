@@ -155,6 +155,13 @@ while join_status == 0:
     #check id Network Joined
     _sendCmd("AT+CREG?\r")
     status, response = _parseResponse()
+
+    # check response
+    index = response.find(":")
+    if (index!=-1)
+        data = response[index:]   
+        print "DEBUG2:"+data
+    
     print "DEBUG:"+response
     join_status = int(response)
 
