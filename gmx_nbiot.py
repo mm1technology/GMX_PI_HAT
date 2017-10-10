@@ -3,14 +3,35 @@ import time
 import serial
 import re
 
+#
+#               GPIO PINOUT
+#
+# GMX               SLOT #0             SLOT# 1
+# GMX_Reset         GPIO 5              GPIO 6
+# GMX_GPIO_1        GPIO 23             GPIO 21
+# GMX_GPIO_2        GPIO 24             GPIO 16
+# GMX_GPIO_3        GPIO 25             GPIO 12
+# GMX_GPIO_4        GPIO 18             GPIO 19
+# GMX_GPIO_5        GPIO 22             GPIO 26
+# GMX_GPIO_6/BOOT0  GPIO 13             GPIO 13
+# GMX_I2C_SCL       SCL1 (GPIO 02)      SCL1 (GPIO 02)
+# GMX_I2C_SDA       SDA1 (GPIO 03)      SDA1 (GPIO 03)
+# GMX_SPI_MISO      SPI_MISO (GPIO 09)  SPI_MISO (GPIO 09)
+# GMX_SPI_MOSI      SPI_MOSI (GPIO10)   SPI_MOSI (GPIO10)
+# GMX_SPI_CLK       SPI_CLK (GPIO11)    SPI_CLK (GPIO11)
+# GMX_SPI_CS        SPI_CE0_N (GPIO 08) SPI_CE1_N (GPIO 07)
+# GMX_gmxINT        GPIO 20             GPIO 27
+#
+#
+
 print "Booting GMX-NBIOT..."
 
 #Init GPIO's
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 
-# Reset PIN for GMX Slot #0
-#  - for Slor #1 pin is 6
+# Reset PIN for GMX Slot #1
+#  - for Slor #0 pin is 5
 GPIO.setup(6, GPIO.OUT)   # SLOT 1
 
 # Cycle the Reset

@@ -3,8 +3,6 @@ import time
 import serial
 import re
 
-lora_rx = False
-
 #
 #               GPIO PINOUT
 #
@@ -27,24 +25,40 @@ lora_rx = False
 #
 
 
+print "Booting GMX-CATM1..."
 
-print "Booting GMX-LR1..."
+
+# GPIO pins are for Slot 1
 
 #Init GPIO's
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 
-# Reset PIN for GMX Slot #1
-#  - for Slor #2 pin is 6
-GPIO.setup(5, GPIO.OUT)  # Slot 0
+# Setup LED's on Module
 
-# RX Interrupt PIN
-GPIO.setup(20, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(23, GPIO.OUT)   # LED_1
+GPIO.setup(24, GPIO.OUT)   # LED_2
+GPIO.setup(25, GPIO.OUT)   # LED_3
+
+
+# Turn on the BG96 Module
+GPIO.setup(18, GPIO.OUT)   # SLOT 1
+
+# PowerOn
+GPIO.output(18,1)
+time.sleep( .5 )
+GPIO.output(18,0)
+time.sleep( .5 )
+GPIO.output(18,1)
+
+
+# Reset PIN for GMX Slot #1
+GPIO.setup(6, GPIO.OUT)   # SLOT 1
 
 # Cycle the Reset
-GPIO.output(5,0)
+GPIO.output(6,0)
 time.sleep( .1 )
-GPIO.output(5,1)
+GPIO.output(6,1)
 
 #wait for reboot
 time.sleep(2)
@@ -57,7 +71,7 @@ GMX_UKNOWN_ERROR = -2
 print "Ready."
 
 # Use /dev/ttySC0 o /dev/ttySC1
-port = serial.Serial("/dev/ttySC0",  baudrate=9600)
+port = serial.Serial("/dev/ttySC1",  baudrate=115200)  # => SLOT 2
 
 def _sendCmd(command):
     port.reset_input_buffer()  # flush any pending data
@@ -88,84 +102,94 @@ def _parseResponse():
 
     return GMX_UKNOWN_ERROR,response
 
-def _rx_callback(channel):
-    global  lora_rx
-    lora_rx = True;
 
-# add RX interrupt handling
-GPIO.add_event_detect(20, GPIO.FALLING, callback=_rx_callback)
 
 # Query the Module
-response = ""
-_sendCmd("AT+DEUI=?\r\n")
-status,response = _parseResponse()
-print "DevEUI:"+response
 
-_sendCmd("AT+APPEUI=?\r\n")
-status,response = _parseResponse()
-print "AppEUI:"+response
-
-_sendCmd("AT+APPKEY=?\r\n")
-status,response = _parseResponse()
-print "AppKey:"+response
-
-_sendCmd("AT+VER=?\r\n")
+_sendCmd("AT+CGMR\r\n")
 status,response = _parseResponse()
 print "Version:"+response
 
-print "\nJoining..."
+_sendCmd("AT+CGSN\r\n")
+status,response = _parseResponse()
+print "IMEI:"+response
+
+_sendCmd("AT+CIMI\r\n")
+status,response = _parseResponse()
+print "IMSI:"+response
+
+
+#Activate CAT-M1
+_sendCmd("AT+QCFG=\"nwscanseq\",02,1\r");
+status,response = _parseResponse();
+print "DEBUG:"+response
+
+_sendCmd("AT+QCFG=\"iotopmode\",0,1\r");
+status,response = _parseResponse();
+print "DEBUG:"+response
+
+_sendCmd("AT+QICSGP=1,1,\"gprs.swisscom.ch\",\"\",\"\",1\r");
+status,response = _parseResponse();
+print "DEBUG:"+response
+
+ _sendCmd("AT+QIACT=1\r");
+status,response = _parseResponse();
+print "DEBUG:"+response
+
+_sendCmd("AT+CREG=2\r");
+status,response = _parseResponse();
+print "DEBUG:"+response
+
+
+print "\nWaiting to attach..."
 
 # Now we try to Join
 join_status = 0
 join_wait = 0
 while join_status == 0:
 
-    if join_wait == 0:
-        # Disable DutyCycle
-        _sendCmd("AT+DCS=0\r\n")
-        _parseResponse()
-        # Set Class C
-        _sendCmd("AT+CLASS=C\r\n")
-        _parseResponse()
-
-        # Join
-        _sendCmd("AT+JOIN\r\n")
-        _parseResponse()
-
-    print "Join Attempt:"+str(join_wait)
+    print "Attach Attempt:"+str(join_wait)
     join_wait+=1
     time.sleep(5)
 
     #check id Network Joined
-    _sendCmd("AT+NJS=?\r")
+    _sendCmd("AT+CREG?\r")
     status, response = _parseResponse()
+    print "DEBUG:"+response
     join_status = int(response)
+
 
 
 # Joined - we start application
 
-print "Joined!!!"
+print "Connected!!!"
 
-last_lora_tx_time = time.time()
+last_tx_time = time.time()
 time_interval_tx = 20
 
 # main loop testing
-print "Starting LoRa TX Loop - TX every "+str(time_interval_tx)+" seconds"
+print "Starting  TX Loop - TX every "+str(time_interval_tx)+" seconds"
 while True:
-    delta_lora_tx = time.time() - last_lora_tx_time
+    delta_tx = time.time() - last_tx_time
 
-    if ( delta_lora_tx > time_interval_tx ):
-        print "LoRa TX!"
+    if ( delta_tx > time_interval_tx ):
+        print "TX!"
         # TX Data
-        _sendCmd("AT+SENDB=1:010203\r\n")
-        _parseResponse()
 
-        last_lora_tx_time = time.time()
+        # PUT YOUR DATA HERE
+        _udp_port = "9200"
+        _upd_socket_ip = "1.1.1.1"
 
-    if (lora_rx):
-        print "LoRa RX!"
-        time.sleep(0.2)  #small delay due to interrupt being faster than real RX
-        _sendCmd("AT+RECVB=?\r");
-        status,response = _parseResponse();
-        print "Data=>"+response
-        lora_rx = False
+        data_to_send = '010203'
+        num_bytes = len( data_to_send ) / 2
+
+        _sendCmd("at+nsocr=DGRAM,17," + _udp_port + "\r")
+        status, response = _parseResponse()
+
+        _sendCmd("at+nsost=0," + _upd_socket_ip + "," + _udp_port + "," + str(num_bytes) + "," + data_to_send + "\r");
+        status, response = _parseResponse()
+
+        _sendCmd("at+nsocl=0\r")
+        status, response = _parseResponse()
+
+        last_tx_time = time.time()
