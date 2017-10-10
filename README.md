@@ -185,8 +185,9 @@ Here is the table showing the connection between the RapsberryPI GPIO ports and 
 
 In this repo we will add differnt examples to use our GMX modules.<br>
 The first 'basic' example is for the LoRaWAN GMX-LR1 module <b>gmx_lr1.py</b>, this is a first version of the python code to make a LoRaWAN connection.<br/>
-There is also the gmx_nbiot.py version with configuration for Deutsche Telekom network.<br/>
-
+The gmx_nbiot.py is an example file to run the GMX-NBIoT module with configuration for Deutsche Telekom network.<br/>
+The gmx_catm1.py is an example file to run the GMX-CATM1 module with configuration for Swisscom network.<br/>
+<br/>
 These examples are still quite rough but they work!<br/>
 To make them work you need to install python-serial module:
 
