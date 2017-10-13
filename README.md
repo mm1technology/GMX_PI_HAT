@@ -129,7 +129,7 @@ The GMX PI HAT has i2c address at <b>0x4D</b> and interrupt pin GPIO <b>17</b>.<
 Now we need to create the DTBO overlay file ( and you need kernel > 4.4 - use 'uname -r' to check).<br/>
 
 ```bash
-dtc -@ -I dts –O dtb –o sc16is752-i2c.dtbo sc16is752-i2c.dts
+dtc -@ -I dts -O dtb -o sc16is752-i2c.dtbo sc16is752-i2c.dts
 ```
 
 If there is a warning, like this...<br/>
