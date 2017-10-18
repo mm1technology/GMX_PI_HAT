@@ -71,7 +71,7 @@ GMX_UKNOWN_ERROR = -2
 print "Ready."
 
 # Use /dev/ttySC0 o /dev/ttySC1
-port = serial.Serial("/dev/ttySC1",  baudrate=115200)  # => SLOT 2
+port = serial.Serial("/dev/ttySC1",  baudrate=115200)  # => SLOT 1
 
 def _sendCmd(command):
     port.reset_input_buffer()  # flush any pending data
@@ -82,8 +82,9 @@ def _parseResponse():
     time.sleep(0.2)
     response = ""
 
-    response = port.read(4)  # start reading
-    response += port.read(port.in_waiting)
+    response = port.read(1)  # start reading
+    while (port.in_waiting > 0):
+        response += port.read(port.in_waiting)
 
     matchOk = re.match(r"((.|\n)*)\r\nOK",response)
 
@@ -185,15 +186,28 @@ while True:
         _upd_socket_ip = "1.1.1.1"
 
         data_to_send = '010203'
-        num_bytes = len( data_to_send ) / 2
 
-        _sendCmd("at+nsocr=DGRAM,17," + _udp_port + "\r")
-        status, response = _parseResponse()
+        _sendCmd("AT+QIOPEN=1,0,\"UDP\",\""+_udp_port+"\","+_udp_port+",0,1\r")
+        status,response = _parseResponse(dummyResponse);
+        
+        _sendCmd("AT+QISEND=0\r");
 
-        _sendCmd("at+nsost=0," + _upd_socket_ip + "," + _udp_port + "," + str(num_bytes) + "," + data_to_send + "\r");
-        status, response = _parseResponse()
+        # wait for > character
+        send_data = false
+        while (port.in_waiting > 0):
+            response = port.read(1)
+            if response == '>'
+                send_data = true
 
-        _sendCmd("at+nsocl=0\r")
-        status, response = _parseResponse()
+        if send_data:
+             count = len( data_to_send )
+             for x in range(0,count):
+                port.write(data_to_send[x])
+             port.write(0x26)
+
+              _sendCmd("AT+QICLOSE=0\r");
+              status,response = _parseResponse(dummyResponse);      
+        else:
+            print "Didn't receive '>'"
 
         last_tx_time = time.time()

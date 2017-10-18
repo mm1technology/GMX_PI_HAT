@@ -57,6 +57,7 @@ GMX_UKNOWN_ERROR = -2
 print "Ready."
 
 # Use /dev/ttySC0 o /dev/ttySC1
+# For LoRaWAN we are using slot 0
 port = serial.Serial("/dev/ttySC0",  baudrate=9600)
 
 def _sendCmd(command):

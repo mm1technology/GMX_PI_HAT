@@ -50,7 +50,8 @@ GMX_UKNOWN_ERROR = -2
 print "Ready."
 
 # Use /dev/ttySC0 o /dev/ttySC1
-port = serial.Serial("/dev/ttySC1",  baudrate=9600)  # => SLOT 2
+# For NBIoT we are using Slot 1
+port = serial.Serial("/dev/ttySC1",  baudrate=9600)  
 
 def _sendCmd(command):
     port.reset_input_buffer()  # flush any pending data
