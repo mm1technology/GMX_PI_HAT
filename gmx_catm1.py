@@ -205,8 +205,8 @@ while True:
                 port.write(data_to_send[x])
              port.write(0x26)
 
-              _sendCmd("AT+QICLOSE=0\r");
-              status,response = _parseResponse(dummyResponse);      
+             _sendCmd("AT+QICLOSE=0\r");
+             status,response = _parseResponse(dummyResponse);      
         else:
             print "Didn't receive '>'"
 
