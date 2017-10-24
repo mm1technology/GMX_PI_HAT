@@ -196,7 +196,7 @@ while True:
         send_data = false
         while (port.in_waiting > 0):
             response = port.read(1)
-            if response == '>'
+            if response == '>':
                 send_data = true
 
         if send_data:
