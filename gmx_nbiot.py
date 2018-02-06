@@ -210,9 +210,9 @@ while True:
         # TX Data
 
         # PUT YOUR DATA HERE
-        _udp_port_dest = "18884"
-        _udp_port_src = "18883"
-        _upd_socket_ip = "88.99.84.133"
+        _udp_port_dest = "{port}"
+        _udp_port_src = "{port}"
+        _upd_socket_ip = "{your ip address}"
 
         data_to_send = '010203'
         num_bytes = len(data_to_send) / 2
